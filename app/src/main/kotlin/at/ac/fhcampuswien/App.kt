@@ -13,7 +13,19 @@ class App {
         /*if (digitsToGuess in 1..9){ println(generateRandomNonRepeatingNumber(digitsToGuess)) }
         else{ println("digitcount not valid")} */
         try {
-            generateRandomNonRepeatingNumber(digitsToGuess)
+            val numberToGuess = generateRandomNonRepeatingNumber(digitsToGuess)
+            var guess =0
+            do{
+                guess = readlnOrNull()?.toIntOrNull() ?: continue   //das ?: heißt elvis operator
+                if (guess.toString().toSet().size!=guess.toString().length) {println("all digits must be unique"); continue}
+                if (guess == numberToGuess) continue
+                try {       //zweimal try catch weil ich nd will dass as speil aufhört nur weil ich einmal zahl mit falscher länge eingegeben hab
+                    println( checkUserInputAgainstGeneratedNumber(guess, numberToGuess).toString())
+                }catch(e: IllegalArgumentException) {
+                    println(e.message)
+                }
+
+            }while(guess != numberToGuess)
         }catch (e: IllegalArgumentException) {
             println(e.message)
         }
@@ -39,7 +51,7 @@ class App {
             throw IllegalArgumentException("Length must be between 1 and 9")
         }
         var number = Random.nextInt(
-                0,
+            10.0.pow(length-1).toInt(),      //wenns immer gleich viele stellen haben muss dann so, sonst 0
             10.0.pow(length).toInt()
             ) //between 0 (inclusive) and x (exclusive)
         println("initialer wert: $number")
@@ -57,6 +69,7 @@ class App {
         for (char in charSet) {
             stringBuilder.append(char)
         }
+        println("number to guess: ${stringBuilder.toString().toInt()}")
         stringBuilder.toString().toInt()
         // return value:  ensure the last expression of the block is the value you want to return
     }
@@ -79,7 +92,15 @@ class App {
      */
     val checkUserInputAgainstGeneratedNumber: (Int, Int) -> CompareResult = { input, generatedNumber ->
         //TODO implement the function
-        CompareResult(0, 0)   // return value is a placeholder
+        if (input.toString().length != generatedNumber.toString().length){
+            throw IllegalArgumentException("Lengths aren't the same")
+        }
+        val intersection = input.toString().toList().intersect(generatedNumber.toString().toList())
+        var rightCount = 0;
+        for ((i, j) in input.toString().zip(generatedNumber.toString()) ){
+            if (i == j) rightCount += 1
+    }
+        CompareResult(intersection.size, rightCount)   // return value is a placeholder
     }
 }
 
