@@ -3,10 +3,20 @@
  */
 package at.ac.fhcampuswien
 
+import kotlin.random.Random
+import kotlin.math.pow
+
 class App {
     // Game logic for a number guessing game
     fun playNumberGame(digitsToGuess: Int = 4) {
         //TODO: build a menu which calls the functions and works with the return values
+        /*if (digitsToGuess in 1..9){ println(generateRandomNonRepeatingNumber(digitsToGuess)) }
+        else{ println("digitcount not valid")} */
+        try {
+            generateRandomNonRepeatingNumber(digitsToGuess)
+        }catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
     }
 
     /**
@@ -25,7 +35,30 @@ class App {
      */
     val generateRandomNonRepeatingNumber: (Int) -> Int = { length ->
         //TODO implement the function
-        0   // return value is a placeholder
+        if (length !in 1 .. 9){
+            throw IllegalArgumentException("Length must be between 1 and 9")
+        }
+        var number = Random.nextInt(
+                0,
+            10.0.pow(length).toInt()
+            ) //between 0 (inclusive) and x (exclusive)
+        println("initialer wert: $number")
+        val charSet = LinkedHashSet<String>() //check for duplicates, maintains the order in which elements were inserted
+        for(i in number.toString()) {
+            var char = i.toString()
+            while (charSet.contains(char)) {  //already existing
+                println("$char ist doppelt")
+                char =  Random.nextInt(0, 9).toString()
+                println("suggesting $char instead")
+            }
+            charSet.add(char)
+        }
+        val stringBuilder = StringBuilder()
+        for (char in charSet) {
+            stringBuilder.append(char)
+        }
+        stringBuilder.toString().toInt()
+        // return value:  ensure the last expression of the block is the value you want to return
     }
 
     /**
@@ -53,4 +86,8 @@ class App {
 fun main() {
     println("Hello World!")
     // TODO: call the App.playNumberGame function with and without default arguments
+    val app = App()
+    app.playNumberGame()
+    app.playNumberGame(3)
+    app.playNumberGame(10)
 }
