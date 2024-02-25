@@ -18,7 +18,7 @@ class App {
             do{
                 guess = readlnOrNull()?.toIntOrNull() ?: continue   //das ?: heißt elvis operator
                 if (guess.toString().toSet().size!=guess.toString().length) {println("all digits must be unique"); continue}
-                if (guess == numberToGuess) continue
+                if (guess == numberToGuess) {println("you guessed correct!"); continue}
                 try {       //zweimal try catch weil ich nd will dass as speil aufhört nur weil ich einmal zahl mit falscher länge eingegeben hab
                     println( checkUserInputAgainstGeneratedNumber(guess, numberToGuess).toString())
                 }catch(e: IllegalArgumentException) {
