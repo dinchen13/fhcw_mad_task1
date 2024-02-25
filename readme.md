@@ -9,17 +9,52 @@
 ## Questions
 ### Describe how Kotlin handles null safety. What are nullable types and non-null types in Kotlin? (0,5 points)
 
-<span style="color:blue">Provide your answer here! </span>
+<span style="color:blue">used to prevent null pointer exceptions
+there are two types of references:
+non-nullable references - cannot hold null (= for normal initialization)
+nullable references - can hold null (= you can declare a variable as null-able if you add a ? after the classname:)
+</span>
 > Note: you can also use code snippets to illustrate your answer. 
 
-```kotlin 
+```kotlin
 // example code snippet
 val a: String = "value" // non-null type
+var b: String? = "abc" // can be set to null - nullable
 ```
+
+<span style="color:blue">use of nullable value:
+the occurrence must be handled, there are these options:
+Checking for null in conditions (with if else before)
+Safe calls (use a question mark (=safe call operator) before accessing a specific property or function)
+Elvis operator ("if b is not null, use it, otherwise use some non-null value")
+The !! operator (converts any value to a non-nullable type and throws an exception if the value is null)
+(
+Nullable receiver
+Safe casts
+)
+
+Quelle: https://kotlinlang.org/docs/null-safety.html#safe-casts
+</span>
+
+
 
 ### What are lambda expressions and higher order functions in Kotlin? Why would you store a function inside a variable? (0,5 points)
 
-<span style="color:blue">Provide your answer here!</span>
+
+<span style="color:blue">Higher-order function = a function that takes functions as parameters, or returns a function
+Lambda expressions (also anonymous functions) = functions that are not declared but are passed immediately as an expression
+
+```kotlin
+// example code snippet
+val sum: (Int, Int) -> Int = { x, y -> x + y } //lambda
+fun operation(x: Int, y: Int, op: (Int, Int) -> Int): Int {
+    return op(x, y)
+} //higher order function
+```
+
+Quelle: https://kotlinlang.org/docs/lambdas.html#lambda-expressions-and-anonymous-functions
+</span>
+
 
 ### Provide a solution for the following number guessing game inside `App.kt`. (3 points)
 
